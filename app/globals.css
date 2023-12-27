@@ -37,4 +37,8 @@
     input, select, textarea{
         @apply m-1 rounded bg-card p-1;
     }
+
+    .btn{
+        @apply px-5 py-2.5 rounded-full bg-slate-800 text-default-text;
+    }
 }
