@@ -7,7 +7,8 @@ import Link from 'next/link'
 
 export default function Nav() {
   return (
-    <nav className='flex justify-between items-center px-4 py-2 bg-nav'>
+    <div>
+      <nav className='flex justify-between items-center px-4 py-2 bg-nav'>
         <div className="flex flex-row gap-x-2 text-default-text">
         <Link href='/' passHref>
             <IoIosHome className='cursor-pointer'/>
@@ -19,5 +20,6 @@ export default function Nav() {
 
         <span className='text-default-text text-sm'>@Jasperayawan</span>
     </nav>
+    </div>
   )
 }
