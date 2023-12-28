@@ -6,16 +6,7 @@ import StatusDisplay from "./StatusDisplay";
 import Link from "next/link";
 
 export default function TicketCard({
-  category,
-  createdAt,
-  description,
-  priority,
-  progress,
-  status,
-  title,
-  id,
-  data,
-  updatedAt,
+  ticket, id
 }) {
   const formatTimestamp = (timestamp) => {
     const options = {
@@ -36,23 +27,23 @@ export default function TicketCard({
   return (
     <div className="flex flex-col bg-card hover:bg-card-hover rounded-md shadow-lg p-3 m-2">
       <div className="flex mb-3">
-        <DeleteBlock id={id} />
+        <DeleteBlock id={ticket._id} />
         <div className="ml-auto">
-          <PriorityDisplay priority={priority} />
+          <PriorityDisplay priority={ticket.priority} />
         </div>
       </div>
       <Link href={`/TicketPage/${id}`} style={{display: "contents"}}>
-        <h4>{title}</h4>
+        <h4>{ticket.title}</h4>
         <hr className="h-px border-0 bg-page mb-2" />
-        <p className="whitespace-pre-wrap">{description}</p>
+        <p className="whitespace-pre-wrap">{ticket.description}</p>
         <div className="flex-grow"></div>
         <div className="flex mt-2">
           <div className="flex flex-col">
-            <p className="text-xs my-1">{formatTimestamp(createdAt)}</p>
-            <ProgressDisplay progress={progress} />
+            <p className="text-xs my-1">{formatTimestamp(ticket.createdAt)}</p>
+            <ProgressDisplay progress={ticket.progress} />
           </div>
           <div className="ml-auto flex items-end">
-            <StatusDisplay status={status} />
+            <StatusDisplay status={ticket.status} />
           </div>
         </div>
       </Link>

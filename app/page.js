@@ -21,18 +21,22 @@ export default function page() {
     getTickets();
   },[])
 
-
+  const uniqueCategories = [
+    ...new Set(isTickets?.map(({ category }) => category)),
+  ];
   return (
     <div className='p-5'>
-      <div className='lg:grid grid-cols-2 xl:grid-cols-4'>
-        {isTickets.map((data, i) => (
-          <div key={i}>
-            <TicketCard data={data} id={data._id} category={data.category} createdAt={data.createdAt} description={data.description} priority={data.priority}
-          progress={data.progress} status={data.status} title={data.title} updatedAt={data.updatedAt}
-          />
-          </div>
-        ))}
+      {isTickets && uniqueCategories?.map((uniqueCategory, categoryIndex) => <div key={categoryIndex} className='mb-4'>
+          <h2>{uniqueCategory}</h2>
+
+          <div className='lg:grid grid-cols-2 xl:grid-cols-4'>
+        
+          {isTickets.filter((ticket) => ticket.category === uniqueCategory).map((filteredTicket, _index) => (
+            <TicketCard id={filteredTicket._id} key={_index} ticket={filteredTicket}
+            />
+          ))}
       </div>
+        </div>)}
     </div>
   )
 }
