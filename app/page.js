@@ -27,7 +27,7 @@ export default function page() {
       <div className='lg:grid grid-cols-2 xl:grid-cols-4'>
         {isTickets.map((data, i) => (
           <div key={i}>
-            <TicketCard category={data.category} createdAt={data.createdAt} description={data.description} priority={data.priority}
+            <TicketCard data={data} id={data._id} category={data.category} createdAt={data.createdAt} description={data.description} priority={data.priority}
           progress={data.progress} status={data.status} title={data.title} updatedAt={data.updatedAt}
           />
           </div>

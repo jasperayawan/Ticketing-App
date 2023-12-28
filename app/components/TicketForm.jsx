@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -6,8 +6,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
-export default function TicketForm() {
+export default function TicketForm({ data }) {
   const router = useRouter();
+  const EDITMODE = data._id === "new" ? false : true;
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -23,18 +24,33 @@ export default function TicketForm() {
     e.preventDefault();
 
     try{
-      const res = await axios.post('/api/Tickets', JSON.stringify({ formData }), {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if(res.status === 200){
-        toast.success("Ticket Successfully created!")
-        setInterval(() => {
+      if(EDITMODE){
+        const res = await axios.put(`/api/Tickets/${data._id}`, JSON.stringify({ formData }), {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+  
+        if(res.status === 200){
+          toast.success("Ticket updated Successfully!")
           router.refresh();
           router.push('/')
-        }, 2000)
+        } else {
+          toast.success("Failed to Update Ticket!")
+        }
+
+      } else {
+        const res = await axios.post('/api/Tickets', JSON.stringify({ formData }), {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+  
+        if(res.status === 200){
+          toast.success("Ticket Successfully created!")
+          router.refresh();
+          router.push('/')
+        }
       }
     }
     catch(error){
@@ -51,6 +67,15 @@ export default function TicketForm() {
     category: "Hardware Problem",
   };
 
+  if(EDITMODE){
+    startingTicketData["title"] = data.title;
+    startingTicketData["description"] = data.description;
+    startingTicketData["priority"] = data.priority;
+    startingTicketData["progress"] = data.progress;
+    startingTicketData["status"] = data.status;
+    startingTicketData["category"] = data.category;
+  }
+
   const [formData, setFormData] = useState(startingTicketData);
 
   return (
@@ -61,7 +86,7 @@ export default function TicketForm() {
         method="post"
         onSubmit={handleSubmit}
       >
-        <h3>Create Your Ticket</h3>
+        <h3>{ EDITMODE ? "Update your ticket" : "Create Your Ticket"}</h3>
         <label>Title</label>
         <input
           id="title"
@@ -148,7 +173,7 @@ export default function TicketForm() {
           <option value="done">Done</option>
         </select>
         <button type="submit" className="btn">
-          Create
+        { EDITMODE ? "Update ticket" : "Create Ticket"}
         </button>
       </form>
     </div>

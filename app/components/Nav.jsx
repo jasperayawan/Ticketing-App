@@ -13,7 +13,7 @@ export default function Nav() {
         <Link href='/' passHref>
             <IoIosHome className='cursor-pointer'/>
         </Link>
-        <Link href='/TicketPage/123' passHref>
+        <Link href='/TicketPage/new' passHref>
             <FaTicket className='cursor-pointer'/>
         </Link>
         </div>
